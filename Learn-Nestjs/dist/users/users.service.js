@@ -13,6 +13,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const bcrypt = require("bcrypt");
 let UsersService = class UsersService {
     prisma;
     constructor(prisma) {
@@ -20,18 +21,30 @@ let UsersService = class UsersService {
     }
     async createUser(dto) {
         try {
+            const hashedPassword = await bcrypt.hash(dto.password, 10);
             return this.prisma.user.create({
-                data: dto,
+                data: {
+                    ...dto,
+                    password: hashedPassword,
+                },
             });
         }
         catch (err) {
             if (err instanceof client_1.Prisma.PrismaClientKnownRequestError) {
-                if (err.code == "P002") {
+                if (err.code == "P2002") {
                     throw new common_1.ConflictException("Email already exists");
                 }
             }
             throw err;
         }
+    }
+    async validateUser(email, password) {
+        const user = await this.prisma.user.findUnique({ where: { email } });
+        if (user && (await bcrypt.compare(password, user.password))) {
+            const { password, ...result } = user;
+            return result;
+        }
+        return null;
     }
     async getUser() {
         return this.prisma.user.findMany();

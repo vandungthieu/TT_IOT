@@ -10,15 +10,24 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_module_1 = require("./users/users.module");
 const logger_middleware_1 = require("./middleware/logger.middleware");
+const posts_module_1 = require("./posts/posts.module");
+const profiles_module_1 = require("./profiles/profiles.module");
+const auth_module_1 = require("./auth/auth.module");
+const auth_middleware_1 = require("./middleware/auth.middleware");
 let AppModule = class AppModule {
     configure(consumer) {
-        consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes({ path: '*', method: common_1.RequestMethod.ALL });
+        consumer
+            .apply(logger_middleware_1.LoggerMiddleware)
+            .forRoutes({ path: '*', method: common_1.RequestMethod.ALL })
+            .apply(auth_middleware_1.AuthMiddleware)
+            .forRoutes({ path: 'users/*', method: common_1.RequestMethod.ALL }, { path: 'posts/*', method: common_1.RequestMethod.ALL }, { path: 'profiles/*', method: common_1.RequestMethod.ALL });
     }
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule]
+        imports: [users_module_1.UsersModule, posts_module_1.PostModule, profiles_module_1.ProfilesModule, auth_module_1.AuthModule],
+        controllers: [],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

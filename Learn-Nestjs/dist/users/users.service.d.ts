@@ -7,26 +7,36 @@ export declare class UsersService {
     createUser(dto: CreateUserDto): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     }>;
+    validateUser(email: string, password: string): Promise<{
+        email: string;
+        name: string;
+        id: number;
+    } | null>;
     getUser(): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     }[]>;
     getUserById(id: number): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     } | null>;
     updateUser(id: number, dto: UpdateUserDto): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     }>;
     deleteUser(id: number): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     } | undefined>;
 }
