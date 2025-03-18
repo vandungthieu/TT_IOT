@@ -28,28 +28,6 @@ export class UsersService{
        }
     }
 
-//     async validateUser(email: string, password: string) {
-//         const user = await this.prisma.user.findUnique({
-//             where: { email },
-//             select: { id: true, name: true, email: true, password: true }
-//         });
-    
-    
-//         const inputPassword = "password123"; // Mật khẩu bạn nhập
-// const storedHash = "$2b$10$4kXbvkdt6Tkggjpc8s5JVutUgRmtx12iAWShg3jOVqKK1toCbbAKG"; // Hash trong DB
-
-// bcrypt.compare(inputPassword, storedHash, (err, result) => {
-//     console.log("✅ Password match:", result);
-// })
-//         // if (user && (await bcrypt.compare(password, user.password))) {
-//         //     console.log('Password matched!');
-//         //     const { password, ...result } = user;
-//         //     return result;
-//         // }
-    
-//         console.log('Password did not match!');
-//         return null;
-//     }
 async validateUser(email: string, password: string){
     const user = await this.prisma.user.findUnique({where: {email}})
     if(user && (await bcrypt.compare(password, user.password))){

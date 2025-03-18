@@ -16,6 +16,12 @@ export declare class PostsController {
         title: string;
         content: string;
     }[]>;
+    getAllPosts(): Promise<{
+        id: number;
+        userId: number;
+        title: string;
+        content: string;
+    }[]>;
     getPostById(postId: string): Promise<{
         id: number;
         userId: number;

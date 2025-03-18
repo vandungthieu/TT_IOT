@@ -28,6 +28,9 @@ let PostsController = class PostsController {
     getPostByUserId(userId) {
         return this.postsService.getPostByUserId(parseInt(userId));
     }
+    getAllPosts() {
+        return this.postsService.getAllPost();
+    }
     getPostById(postId) {
         return this.postsService.getPostById(parseInt(postId));
     }
@@ -53,6 +56,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getPostByUserId", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getAllPosts", null);
 __decorate([
     (0, common_1.Get)(':postId'),
     __param(0, (0, common_1.Param)('postId')),

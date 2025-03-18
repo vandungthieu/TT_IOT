@@ -18,6 +18,12 @@ export class PostsController{
         getPostByUserId(@Param('userId') userId: string){
             return this.postsService.getPostByUserId(parseInt(userId))
         }
+
+        //get all post
+        @Get()
+        getAllPosts(){
+            return this.postsService.getAllPost()
+        }
     
         // get post by id
         @Get(':postId')
