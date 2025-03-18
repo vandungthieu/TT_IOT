@@ -15,7 +15,7 @@ export class UsersService{
         })
        } catch(err){
         if(err instanceof Prisma.PrismaClientKnownRequestError){
-            if(err.code == "P002"){
+            if(err.code == "P2002"){
                 throw new ConflictException("Email already exists")
             }
         }

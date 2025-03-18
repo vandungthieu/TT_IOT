@@ -13,8 +13,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role{
+  USER
+  ADMIN
+}
+
 model User{
   id       Int  @id @default(autoincrement())
   name      String  
   email   String  @unique
+  password String
+  role Role @default(USER)
+
+  // quan hệ 1-1 với Profile
+  profile Profile?
+
+  // quan hệ với Post
+  post Post[]
+}
+
+model Profile{
+  id Int @id @default(autoincrement())
+  userId  Int @unique
+  bio String
+  avatar String
+  user User @relation(fields: [userId] , references: [id])
+}
+
+model Post{
+  id Int @id @default(autoincrement())
+  userId Int 
+  title String
+  content String
+  user User @relation(fields:[userId], references:[id])
+
 }
