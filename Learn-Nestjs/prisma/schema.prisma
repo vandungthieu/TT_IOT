@@ -37,7 +37,7 @@ model Profile{
   userId  Int @unique
   bio String
   avatar String
-  user User @relation(fields: [userId] , references: [id])
+  user User @relation(fields: [userId] , references: [id], onDelete:Cascade)
 }
 
 model Post{
@@ -45,6 +45,6 @@ model Post{
   userId Int 
   title String
   content String
-  user User @relation(fields:[userId], references:[id])
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
 
 }
