@@ -7,26 +7,31 @@ export declare class UsersController {
     createUser(dto: CreateUserDto): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     }>;
     getUser(): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     }[]>;
     getUserById(id: string): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     } | null>;
     updateUser(id: string, dto: UpdateUserDto): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     }>;
     deleteUser(id: string): Promise<{
         email: string;
         name: string;
+        password: string;
         id: number;
     } | undefined>;
 }

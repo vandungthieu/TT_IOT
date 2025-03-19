@@ -26,7 +26,7 @@ let UsersService = class UsersService {
         }
         catch (err) {
             if (err instanceof client_1.Prisma.PrismaClientKnownRequestError) {
-                if (err.code == "P002") {
+                if (err.code == "P2002") {
                     throw new common_1.ConflictException("Email already exists");
                 }
             }

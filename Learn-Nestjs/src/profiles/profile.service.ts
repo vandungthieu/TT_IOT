@@ -20,25 +20,25 @@ export class ProfileService{
         return this.prisma.profile.findMany()
     }
 
-    // get profile by id
-    getProfileById(id: number){
+    // get profile by user id
+    getProfileById(userId: number){
         return this.prisma.profile.findUniqueOrThrow({
-            where: {id}
+            where: {userId}
         })
     }
 
     // update profile
-    updateProfile(id: number, dto: UpdateProfileDto){
+    updateProfile(userId: number, dto: UpdateProfileDto){
         return this.prisma.profile.update({
-            where:{id},
+            where:{userId},
             data: dto
         })
     }
 
     //delete Profile
-    deleteProfile(id:number){
+    deleteProfile(userId:number){
         return this.prisma.profile.delete({
-            where: {id}
+            where:{userId}
         })
     }
 }
