@@ -37,11 +37,12 @@ export class UsersService{
         return await this.prisma.user.create({
            data:{
             ...dto,
-            password: hasedPassword,
-            role: 'ADMIN'
+            password:hasedPassword,
+            role : 'ADMIN'
            }
         })
     }
+
 
     async getUser(){
         return await this.prisma.user.findMany()
@@ -101,7 +102,6 @@ export class UsersService{
         }
     }
 }
-
 
 
 

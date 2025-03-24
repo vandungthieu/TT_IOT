@@ -13,12 +13,12 @@ import { RolesGuard } from "./auth/guard/roles.guard";
 
 @Module({
   imports: [UsersModule, PostsModule, ProfilesModule,AuthModule, PrismaModule],
-  providers:[
-    {
-      provide:APP_GUARD,
-      useClass:RolesGuard
-    }
-  ]
+  // providers:[
+  //   {
+  //     provide:APP_GUARD,
+  //     useClass:RolesGuard
+  //   }
+  // ]
 
 })
 

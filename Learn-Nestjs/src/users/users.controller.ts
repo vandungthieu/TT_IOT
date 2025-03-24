@@ -11,21 +11,21 @@ import { RolesGuard } from "src/auth/guard/roles.guard";
 export class UsersController{
     constructor(private readonly userService : UsersService){}
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard)
     @Roles('ADMIN')
     @Post()
     createUser(@Body() dto: CreateUserDto){
         return this.userService.createUser(dto)
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('ADMIN')
     @Post()
     createAdmin(dto: CreateUserDto){
         return this.userService.createAdmin(dto)
     }
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('ADMIN')
     @Get()
     getUser(){
