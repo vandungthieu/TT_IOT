@@ -13,7 +13,7 @@ exports.LocalStrategy = void 0;
 const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const passport_local_1 = require("passport-local");
-const auth_service_1 = require("../auth/auth.service");
+const auth_service_1 = require("../auth.service");
 let LocalStrategy = class LocalStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
     authService;
     constructor(authService) {

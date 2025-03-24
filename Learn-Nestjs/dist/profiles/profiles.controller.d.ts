@@ -8,10 +8,10 @@ export declare class ProfilesController {
     getAllProfile(): void;
     getProfileById(id: string): void;
     updateProfile(id: string, dto: UpdateProfileDto): void;
-    deleteProfile(id: string): import(".prisma/client").Prisma.Prisma__ProfileClient<{
+    deleteProfile(id: string): Promise<{
         id: number;
         userId: number;
         bio: string;
         avatar: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
+    }>;
 }

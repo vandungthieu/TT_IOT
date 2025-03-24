@@ -18,21 +18,21 @@ let PostsService = class PostsService {
         this.prisma = prisma;
     }
     async createPost(dto) {
-        return this.prisma.post.create({
+        return await this.prisma.post.create({
             data: dto
         });
     }
     async getAllPost() {
-        return this.prisma.post.findMany();
+        return await this.prisma.post.findMany();
     }
     async getPostById(id) {
-        return this.prisma.post.findUniqueOrThrow({
+        return await this.prisma.post.findUniqueOrThrow({
             where: { id },
         });
     }
     async getPostByUserId(userId) {
         try {
-            return this.prisma.post.findMany({
+            return await this.prisma.post.findMany({
                 where: { id: userId }
             });
         }
@@ -42,7 +42,7 @@ let PostsService = class PostsService {
     }
     async updatePostById(id, dto) {
         try {
-            return this.prisma.post.update({
+            return await this.prisma.post.update({
                 where: { id },
                 data: dto
             });
@@ -53,7 +53,7 @@ let PostsService = class PostsService {
     }
     async deletePostById(id) {
         try {
-            return this.prisma.post.delete({
+            return await this.prisma.post.delete({
                 where: { id }
             });
         }

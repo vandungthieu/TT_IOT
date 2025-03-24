@@ -15,8 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const local_auth_guard_1 = require("../guard/local-auth.guard");
-const jwt_auth_guard_1 = require("../guard/jwt-auth.guard");
+const local_auth_guard_1 = require("./guard/local-auth.guard");
 const register_dto_1 = require("./dto/register.dto");
 let AuthController = class AuthController {
     authService;
@@ -28,9 +27,6 @@ let AuthController = class AuthController {
     }
     async login(req) {
         return this.authService.createToken(req.user);
-    }
-    async getProfile(req) {
-        return req.user;
     }
 };
 exports.AuthController = AuthController;
@@ -49,14 +45,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, common_1.Get)('profile'),
-    __param(0, (0, common_1.Request)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "getProfile", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

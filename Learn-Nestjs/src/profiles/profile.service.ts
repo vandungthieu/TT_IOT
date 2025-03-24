@@ -9,35 +9,35 @@ export class ProfileService{
     constructor(private readonly prisma: PrismaService){}
 
     // create profile
-    createProfile(dto: CreateProfileDto){
-        return this.prisma.profile.create({
+    async createProfile(dto: CreateProfileDto){
+        return await this.prisma.profile.create({
             data: dto
         })
     }
 
     // get all profile
-    getAllProfile(){
-        return this.prisma.profile.findMany()
+    async getAllProfile(){
+        return await this.prisma.profile.findMany()
     }
 
     // get profile by user id
-    getProfileById(userId: number){
-        return this.prisma.profile.findUniqueOrThrow({
+    async getProfileById(userId: number){
+        return await this.prisma.profile.findUniqueOrThrow({
             where: {userId}
         })
     }
 
     // update profile
-    updateProfile(userId: number, dto: UpdateProfileDto){
-        return this.prisma.profile.update({
+    async updateProfile(userId: number, dto: UpdateProfileDto){
+        return await this.prisma.profile.update({
             where:{userId},
             data: dto
         })
     }
 
     //delete Profile
-    deleteProfile(userId:number){
-        return this.prisma.profile.delete({
+    async deleteProfile(userId:number){
+        return await this.prisma.profile.delete({
             where:{userId}
         })
     }

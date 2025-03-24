@@ -14,6 +14,8 @@ const posts_module_1 = require("./posts/posts.module");
 const profile_module_1 = require("./profiles/profile.module");
 const auth_module_1 = require("./auth/auth.module");
 const prisma_module_1 = require("./prisma/prisma.module");
+const core_1 = require("@nestjs/core");
+const roles_guard_1 = require("./auth/guard/roles.guard");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -24,7 +26,13 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, posts_module_1.PostsModule, profile_module_1.ProfilesModule, auth_module_1.AuthModule, prisma_module_1.PrismaModule]
+        imports: [users_module_1.UsersModule, posts_module_1.PostsModule, profile_module_1.ProfilesModule, auth_module_1.AuthModule, prisma_module_1.PrismaModule],
+        providers: [
+            {
+                provide: core_1.APP_GUARD,
+                useClass: roles_guard_1.RolesGuard
+            }
+        ]
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

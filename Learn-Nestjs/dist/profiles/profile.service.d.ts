@@ -4,34 +4,34 @@ import { UpdateProfileDto } from "./dto/update-profile.dto";
 export declare class ProfileService {
     private readonly prisma;
     constructor(prisma: PrismaService);
-    createProfile(dto: CreateProfileDto): import(".prisma/client").Prisma.Prisma__ProfileClient<{
+    createProfile(dto: CreateProfileDto): Promise<{
         id: number;
         userId: number;
         bio: string;
         avatar: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
-    getAllProfile(): import(".prisma/client").Prisma.PrismaPromise<{
+    }>;
+    getAllProfile(): Promise<{
         id: number;
         userId: number;
         bio: string;
         avatar: string;
     }[]>;
-    getProfileById(userId: number): import(".prisma/client").Prisma.Prisma__ProfileClient<{
+    getProfileById(userId: number): Promise<{
         id: number;
         userId: number;
         bio: string;
         avatar: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
-    updateProfile(userId: number, dto: UpdateProfileDto): import(".prisma/client").Prisma.Prisma__ProfileClient<{
+    }>;
+    updateProfile(userId: number, dto: UpdateProfileDto): Promise<{
         id: number;
         userId: number;
         bio: string;
         avatar: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
-    deleteProfile(userId: number): import(".prisma/client").Prisma.Prisma__ProfileClient<{
+    }>;
+    deleteProfile(userId: number): Promise<{
         id: number;
         userId: number;
         bio: string;
         avatar: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import(".prisma/client").Prisma.PrismaClientOptions>;
+    }>;
 }

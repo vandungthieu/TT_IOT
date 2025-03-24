@@ -13,8 +13,8 @@ const jwt_1 = require("@nestjs/jwt");
 const prisma_module_1 = require("../prisma/prisma.module");
 const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
-const local_strategy_1 = require("../strategies/local.strategy");
-const jwt_strategy_1 = require("../strategies/jwt.strategy");
+const local_strategy_1 = require("./strategies/local.strategy");
+const jwt_strategy_1 = require("./strategies/jwt.strategy");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;

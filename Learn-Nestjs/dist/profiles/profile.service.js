@@ -17,27 +17,27 @@ let ProfileService = class ProfileService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    createProfile(dto) {
-        return this.prisma.profile.create({
+    async createProfile(dto) {
+        return await this.prisma.profile.create({
             data: dto
         });
     }
-    getAllProfile() {
-        return this.prisma.profile.findMany();
+    async getAllProfile() {
+        return await this.prisma.profile.findMany();
     }
-    getProfileById(userId) {
-        return this.prisma.profile.findUniqueOrThrow({
+    async getProfileById(userId) {
+        return await this.prisma.profile.findUniqueOrThrow({
             where: { userId }
         });
     }
-    updateProfile(userId, dto) {
-        return this.prisma.profile.update({
+    async updateProfile(userId, dto) {
+        return await this.prisma.profile.update({
             where: { userId },
             data: dto
         });
     }
-    deleteProfile(userId) {
-        return this.prisma.profile.delete({
+    async deleteProfile(userId) {
+        return await this.prisma.profile.delete({
             where: { userId }
         });
     }

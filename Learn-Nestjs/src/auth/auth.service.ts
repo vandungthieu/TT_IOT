@@ -3,8 +3,6 @@ import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 import { RegisterDto } from "./dto/register.dto";
 import * as bcrypt from "bcrypt"
-import { Prisma, User } from "@prisma/client";
-import { LoginDto } from "./dto/login.dto";
 
 @Injectable()
 export class AuthService{
@@ -15,20 +13,28 @@ export class AuthService{
 
     async register(dto: RegisterDto){
         try{
+            const existingUser = await this.prisma.user.findUnique({
+                where: { email: dto.email }
+            });
+    
+            if (existingUser) {
+                throw new ConflictException("Email already exists");
+            }
             const hasedPassword = await bcrypt.hash(dto.password,10)
-            return this.prisma.user.create({
-                data: {
+            return await this.prisma.user.create({
+                data:{
                     ...dto,
                     password: hasedPassword
                 }
             })
-        } catch(err){
-            if(err instanceof Prisma.PrismaClientKnownRequestError){
-                if(err.code == "P2002"){
-                    throw new ConflictException("Email already exists")
-                }
+            
+        }  catch (err) {
+            if (err.code === 'P2002') {
+                console.log("Email already exists");
+                throw new Error("Email already exists");
+            } else {
+                throw err;
             }
-            throw err
         }
     }
 

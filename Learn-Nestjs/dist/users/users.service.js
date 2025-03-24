@@ -13,6 +13,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const client_1 = require("@prisma/client");
+const bcrypt = require("bcrypt");
 let UsersService = class UsersService {
     prisma;
     constructor(prisma) {
@@ -20,7 +21,7 @@ let UsersService = class UsersService {
     }
     async createUser(dto) {
         try {
-            return this.prisma.user.create({
+            return await this.prisma.user.create({
                 data: dto,
             });
         }
@@ -33,11 +34,25 @@ let UsersService = class UsersService {
             throw err;
         }
     }
+    async createAdmin(dto) {
+        const existingUser = await this.prisma.user.findUnique({ where: { email: dto.email } });
+        if (existingUser) {
+            throw new common_1.ConflictException('Email already exists');
+        }
+        const hasedPassword = await bcrypt.hash(dto.password, 10);
+        return await this.prisma.user.create({
+            data: {
+                ...dto,
+                password: hasedPassword,
+                role: 'ADMIN'
+            }
+        });
+    }
     async getUser() {
-        return this.prisma.user.findMany();
+        return await this.prisma.user.findMany();
     }
     async getUserById(id) {
-        const user = this.prisma.user.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: { id }
         });
         if (!user) {
@@ -47,7 +62,7 @@ let UsersService = class UsersService {
     }
     async updateUser(id, dto) {
         try {
-            return this.prisma.user.update({
+            return await this.prisma.user.update({
                 where: { id },
                 data: dto,
             });
@@ -58,12 +73,22 @@ let UsersService = class UsersService {
     }
     async deleteUser(id) {
         try {
-            return this.prisma.user.delete({
+            return await this.prisma.user.delete({
                 where: { id },
             });
         }
         catch (err) {
-            new common_1.NotFoundException(`Cannot delete User id:${id} not found`);
+            throw new common_1.NotFoundException(`Cannot delete User id:${id} not found`);
+        }
+    }
+    async deleteAll() {
+        try {
+            await this.prisma.user.deleteMany({});
+            await this.prisma.$executeRaw `ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
+            return { message: 'All users deleted and ID sequence reset successfully' };
+        }
+        catch (err) {
+            throw new Error(`Failed to delete all users and reset sequence: ${err.message}`);
         }
     }
 };

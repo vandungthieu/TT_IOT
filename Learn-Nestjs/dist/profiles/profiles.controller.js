@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const create_profile_dto_1 = require("./dto/create-profile.dto");
 const profile_service_1 = require("./profile.service");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
+const jwt_auth_guard_1 = require("../auth/guard/jwt-auth.guard");
+const ownership_guard_1 = require("../auth/guard/ownership.guard");
+const roles_decorator_1 = require("../auth/decorator/roles.decorator");
 let ProfilesController = class ProfilesController {
     profileService;
     constructor(profileService) {
@@ -40,6 +43,7 @@ let ProfilesController = class ProfilesController {
 };
 exports.ProfilesController = ProfilesController;
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -47,12 +51,15 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "createProfile", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, roles_decorator_1.Roles)('ADMIN'),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "getAllProfile", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -60,6 +67,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "getProfileById", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -68,6 +76,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "updateProfile", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

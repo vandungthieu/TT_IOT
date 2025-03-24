@@ -14,7 +14,6 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../prisma/prisma.service");
 const bcrypt = require("bcrypt");
-const client_1 = require("@prisma/client");
 let AuthService = class AuthService {
     prisma;
     jwtService;
@@ -24,8 +23,14 @@ let AuthService = class AuthService {
     }
     async register(dto) {
         try {
+            const existingUser = await this.prisma.user.findUnique({
+                where: { email: dto.email }
+            });
+            if (existingUser) {
+                throw new common_1.ConflictException("Email already exists");
+            }
             const hasedPassword = await bcrypt.hash(dto.password, 10);
-            return this.prisma.user.create({
+            return await this.prisma.user.create({
                 data: {
                     ...dto,
                     password: hasedPassword
@@ -33,12 +38,13 @@ let AuthService = class AuthService {
             });
         }
         catch (err) {
-            if (err instanceof client_1.Prisma.PrismaClientKnownRequestError) {
-                if (err.code == "P2002") {
-                    throw new common_1.ConflictException("Email already exists");
-                }
+            if (err.code === 'P2002') {
+                console.log("Email already exists");
+                throw new Error("Email already exists");
             }
-            throw err;
+            else {
+                throw err;
+            }
         }
     }
     async validateUser(email, password) {

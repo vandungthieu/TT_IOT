@@ -8,10 +8,10 @@ export declare class AuthController {
         name: string;
         password: string;
         id: number;
+        role: import(".prisma/client").$Enums.Role;
     }>;
     login(req: any): Promise<{
         access_token: string;
         user: any;
     }>;
-    getProfile(req: any): Promise<any>;
 }

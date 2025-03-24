@@ -1,7 +1,7 @@
 import { Controller, Post, Request, UseGuards, Get, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from 'src/guard/local-auth.guard';
-import { JwtAuthGuard } from 'src/guard/jwt-auth.guard';
+import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
@@ -19,9 +19,4 @@ export class AuthController {
     return this.authService.createToken(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req) {
-    return req.user; // Trả về thông tin user từ JWT
-  }
 }
