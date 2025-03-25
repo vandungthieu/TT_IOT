@@ -13,6 +13,7 @@ export class PostsController{
 
     // create post
     @UseGuards(JwtAuthGuard, OwnershipGuard)
+    
     @Post()
     createPost(@Body() dto: CreatePostDto){
         return this.postsService.createPost(dto)

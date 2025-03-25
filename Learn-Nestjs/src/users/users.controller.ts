@@ -1,4 +1,4 @@
-import { Body, Get, Controller, Delete, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Get, Controller, Delete, Param, Post, Put, UseGuards, ParseIntPipe } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -6,13 +6,20 @@ import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
 import { OwnershipGuard } from "src/auth/guard/ownership.guard";
 import { Roles } from "src/auth/decorator/roles.decorator";
 import { RolesGuard } from "src/auth/guard/roles.guard";
+import { ApiBearerAuth, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { User } from "./user.entity";
 
 @Controller('users')
 export class UsersController{
     constructor(private readonly userService : UsersService){}
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard,RolesGuard)
     @Roles('ADMIN')
+    @ApiBearerAuth() // Yêu cầu JWT token
+    @ApiOperation({ summary: 'Tạo một người dùng mới (chỉ Admin)' })
+    @ApiResponse({ status: 201, description: 'Người dùng được tạo', type: User })
+    @ApiResponse({ status: 401, description: 'Chưa xác thực' })
+    @ApiResponse({ status: 403, description: 'Không có quyền (yêu cầu vai trò ADMIN)' })
     @Post()
     createUser(@Body() dto: CreateUserDto){
         return this.userService.createUser(dto)
@@ -27,6 +34,11 @@ export class UsersController{
 
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('ADMIN')
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Tạo một Admin mới (chỉ Admin)' })
+    @ApiResponse({ status: 201, description: 'Admin được tạo', type: User })
+    @ApiResponse({ status: 401, description: 'Chưa xác thực' })
+    @ApiResponse({ status: 403, description: 'Không có quyền (yêu cầu vai trò ADMIN)' })
     @Get()
     getUser(){
         return this.userService.getUser()
@@ -34,8 +46,14 @@ export class UsersController{
     
     @UseGuards(JwtAuthGuard, OwnershipGuard)
     @Get(':id')
-    getUserById(@Param('id') id : string){
-        return this.userService.getUserById(Number(id))
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Lấy thông tin người dùng theo ID (chủ sở hữu hoặc Admin)' })
+    @ApiResponse({ status: 200, description: 'Thông tin người dùng', type: User })
+    @ApiResponse({ status: 401, description: 'Chưa xác thực' })
+    @ApiResponse({ status: 403, description: 'Không có quyền truy cập' })
+    @ApiResponse({ status: 404, description: 'Không tìm thấy người dùng' })
+    getUserById(@Param('id', ParseIntPipe) id : number){
+        return this.userService.getUserById((id))
     }
 
     @UseGuards(JwtAuthGuard, OwnershipGuard)
@@ -45,6 +63,12 @@ export class UsersController{
     }
 
     @UseGuards(JwtAuthGuard, OwnershipGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Cập nhật thông tin người dùng (chủ sở hữu hoặc Admin)' })
+    @ApiResponse({ status: 200, description: 'Người dùng đã được cập nhật', type: User })
+    @ApiResponse({ status: 401, description: 'Chưa xác thực' })
+    @ApiResponse({ status: 403, description: 'Không có quyền truy cập' })
+    @ApiResponse({ status: 404, description: 'Không tìm thấy người dùng' })
     @Delete(':id')
     deleteUser(@Param('id') id: string){
         return this.userService.deleteUser(Number(id))
