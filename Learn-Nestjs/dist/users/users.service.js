@@ -83,13 +83,31 @@ let UsersService = class UsersService {
     }
     async deleteAll() {
         try {
-            await this.prisma.user.deleteMany({});
-            await this.prisma.$executeRaw `ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
-            return { message: 'All users deleted and ID sequence reset successfully' };
+            return await this.prisma.$transaction(async (prisma) => {
+                await prisma.post.deleteMany({});
+                await prisma.profile.deleteMany({});
+                await prisma.user.deleteMany({});
+                await prisma.$executeRaw `ALTER SEQUENCE "Post_id_seq" RESTART WITH 1;`;
+                await prisma.$executeRaw `ALTER SEQUENCE "Profile_id_seq" RESTART WITH 1;`;
+                await prisma.$executeRaw `ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
+                return {
+                    message: 'All users, posts, profiles deleted and ID sequences reset successfully'
+                };
+            });
         }
         catch (err) {
-            throw new Error(`Failed to delete all users and reset sequence: ${err.message}`);
+            throw new Error(`Failed to delete all data and reset sequences: ${err.message}`);
         }
+    }
+    async getPass() {
+        const adminPass = await bcrypt.hash("admin123", 10);
+        const pass2 = await bcrypt.hash("passwordUser1", 10);
+        const pass3 = await bcrypt.hash("passwordUser2", 10);
+        const pass4 = await bcrypt.hash("passwordUser3", 10);
+        console.log(adminPass);
+        console.log(pass2);
+        console.log(pass3);
+        console.log(pass4);
     }
 };
 exports.UsersService = UsersService;

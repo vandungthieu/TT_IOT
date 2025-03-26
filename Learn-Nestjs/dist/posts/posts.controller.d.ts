@@ -5,39 +5,39 @@ export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
     createPost(dto: CreatePostDto): Promise<{
-        title: string;
         id: number;
         userId: number;
+        title: string;
         content: string;
     }>;
     getAllPost(): Promise<{
-        title: string;
         id: number;
         userId: number;
+        title: string;
         content: string;
     }[]>;
     getPostById(id: string): Promise<{
-        title: string;
         id: number;
         userId: number;
+        title: string;
         content: string;
     }>;
     getPostByUserId(userId: string): Promise<{
-        title: string;
         id: number;
         userId: number;
+        title: string;
         content: string;
     }[]>;
     updatePostById(id: string, dto: UpdatePostDto): Promise<{
-        title: string;
         id: number;
         userId: number;
+        title: string;
         content: string;
     }>;
     deletePostById(id: string): Promise<{
-        title: string;
         id: number;
         userId: number;
+        title: string;
         content: string;
     }>;
 }

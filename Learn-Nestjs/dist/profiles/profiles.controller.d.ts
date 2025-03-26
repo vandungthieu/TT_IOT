@@ -5,10 +5,25 @@ export declare class ProfilesController {
     private readonly profileService;
     constructor(profileService: ProfileService);
     createProfile(dto: CreateProfileDto): void;
-    getAllProfile(): void;
-    getProfileById(id: string): void;
-    updateProfile(id: string, dto: UpdateProfileDto): void;
-    deleteProfile(id: string): Promise<{
+    getAllProfile(): Promise<{
+        id: number;
+        userId: number;
+        bio: string;
+        avatar: string;
+    }[]>;
+    getProfileById(id: number): Promise<{
+        id: number;
+        userId: number;
+        bio: string;
+        avatar: string;
+    }>;
+    updateProfile(id: number, dto: UpdateProfileDto): Promise<{
+        id: number;
+        userId: number;
+        bio: string;
+        avatar: string;
+    }>;
+    deleteProfile(id: number): Promise<{
         id: number;
         userId: number;
         bio: string;

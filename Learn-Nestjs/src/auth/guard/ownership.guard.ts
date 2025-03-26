@@ -11,11 +11,11 @@ export class OwnershipGuard implements CanActivate{
 
         console.log('UserId from request:', userId);
         
-        if (user.role === 'admin') {
+        if (user.role === 'ADMIN') {
             return true;
           }
 
-        // kiểm tra userId trong request với userId đăng nhập
+        // kiểm tra userId trong request với userId trong token
         if(user.id !== Number(userId)){
             throw new ForbiddenException('You are not authorized to access this resource')
         }

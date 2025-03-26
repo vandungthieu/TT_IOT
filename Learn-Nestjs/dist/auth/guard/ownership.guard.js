@@ -15,7 +15,7 @@ let OwnershipGuard = class OwnershipGuard {
         console.log('User from JWT:', user);
         const userId = request.params.id || request.body.userId;
         console.log('UserId from request:', userId);
-        if (user.role === 'admin') {
+        if (user.role === 'ADMIN') {
             return true;
         }
         if (user.id !== Number(userId)) {

@@ -32,16 +32,16 @@ let ProfilesController = class ProfilesController {
         this.profileService.createProfile(dto);
     }
     getAllProfile() {
-        this.profileService.getAllProfile();
+        return this.profileService.getAllProfile();
     }
     getProfileById(id) {
-        this.profileService.getProfileById(parseInt(id));
+        return this.profileService.getProfileById((id));
     }
     updateProfile(id, dto) {
-        this.profileService.updateProfile(parseInt(id), dto);
+        return this.profileService.updateProfile((id), dto);
     }
     deleteProfile(id) {
-        return this.profileService.deleteProfile(parseInt(id));
+        return this.profileService.deleteProfile((id));
     }
 };
 exports.ProfilesController = ProfilesController;
@@ -81,9 +81,9 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
     (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "getProfileById", null);
 __decorate([
@@ -95,10 +95,10 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
     (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_profile_dto_1.UpdateProfileDto]),
+    __metadata("design:paramtypes", [Number, update_profile_dto_1.UpdateProfileDto]),
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "updateProfile", null);
 __decorate([
@@ -110,9 +110,9 @@ __decorate([
     (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
     (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "deleteProfile", null);
 exports.ProfilesController = ProfilesController = __decorate([

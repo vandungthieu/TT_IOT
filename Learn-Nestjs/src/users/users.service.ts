@@ -91,18 +91,40 @@ export class UsersService{
     // xóa tất cả user
     async deleteAll() {
         try {
-            // Bước 1: Xóa tất cả bản ghi trong bảng User
-            await this.prisma.user.deleteMany({});
-
-            // Bước 2: Reset sequence của cột id về 1
-            await this.prisma.$executeRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
-
-            return { message: 'All users deleted and ID sequence reset successfully' };
+            // Bắt đầu một transaction để đảm bảo tất cả thao tác thành công hoặc rollback
+            return await this.prisma.$transaction(async (prisma) => {
+                // Bước 1: Xóa tất cả bản ghi trong các bảng liên quan trước
+                await prisma.post.deleteMany({});
+                await prisma.profile.deleteMany({});
+                await prisma.user.deleteMany({});
+    
+                // Bước 2: Reset sequence của tất cả các bảng về 1
+                await prisma.$executeRaw`ALTER SEQUENCE "Post_id_seq" RESTART WITH 1;`;
+                await prisma.$executeRaw`ALTER SEQUENCE "Profile_id_seq" RESTART WITH 1;`;
+                await prisma.$executeRaw`ALTER SEQUENCE "User_id_seq" RESTART WITH 1;`;
+    
+                return { 
+                    message: 'All users, posts, profiles deleted and ID sequences reset successfully' 
+                };
+            });
         } catch (err) {
-            throw new Error(`Failed to delete all users and reset sequence: ${err.message}`);
+            throw new Error(`Failed to delete all data and reset sequences: ${err.message}`);
         }
     }
-}
 
+    async getPass(){
+        const adminPass = await bcrypt.hash("admin123",10)
+        const pass2 = await bcrypt.hash("passwordUser1",10)
+        const pass3 = await bcrypt.hash("passwordUser2",10)
+        const pass4 = await bcrypt.hash("passwordUser3",10)
+        console.log(adminPass)
+        console.log(pass2)
+        console.log(pass3)
+        console.log(pass4)
+    }
+
+}
+//  const user = new UsersService(new PrismaService)
+//  user.getPass()
 
 

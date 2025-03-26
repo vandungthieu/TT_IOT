@@ -13,7 +13,7 @@ import { EnvCheckMiddleware } from "./middleware/EnvCheck.middleware";
 
 
 @Module({
-  imports: [UsersModule, PostsModule, ProfilesModule,AuthModule, PrismaModule],
+  imports: [UsersModule, PostsModule, ProfilesModule, AuthModule, PrismaModule],
   // providers:[
   //   {
   //     provide:APP_GUARD,

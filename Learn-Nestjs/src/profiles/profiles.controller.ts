@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { CreateProfileDto } from "./dto/create-profile.dto";
 import { ProfileService } from "./profile.service";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
@@ -14,6 +14,7 @@ import { Profile } from "./profile.entity";
 export class ProfilesController{
     constructor (private readonly profileService: ProfileService){}
 
+    // tạo profile mới
     @ApiBearerAuth()
     @ApiOperation({summary:'tạo profile mới '})
     @ApiResponse({status:201, description:"profile được tạo", type: Profile})
@@ -26,7 +27,7 @@ export class ProfilesController{
         this.profileService.createProfile(dto)
     }
 
-
+    // lấy tất cả profile
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('ADMIN')
     @ApiBearerAuth()
@@ -36,9 +37,10 @@ export class ProfilesController{
     @ApiResponse({status: 403, description: "Không có quyền truy cập"})
     @Get()
     getAllProfile(){
-        this.profileService.getAllProfile()
+        return this.profileService.getAllProfile()
     }
 
+    // lấy profile theo id
     @UseGuards(JwtAuthGuard, OwnershipGuard)
     @ApiBearerAuth()
     @ApiOperation({summary:'lấy profile theo ID '})
@@ -47,10 +49,11 @@ export class ProfilesController{
     @ApiResponse({status: 403, description: "Không có quyền truy cập"})
     @ApiResponse({status: 404, description:"Không tìm thấy profile"})
     @Get(':id')
-    getProfileById(@Param('id') id: string){
-        this.profileService.getProfileById(parseInt(id))
+    getProfileById(@Param('id', ParseIntPipe) id: number){
+        return this.profileService.getProfileById((id))
     }
 
+    // update profile
     @UseGuards(JwtAuthGuard, OwnershipGuard)
     @ApiBearerAuth()
     @ApiOperation({summary:'cập nhật profile theo ID '})
@@ -59,10 +62,11 @@ export class ProfilesController{
     @ApiResponse({status: 403, description: "Không có quyền truy cập"})
     @ApiResponse({status: 404, description:"Không tìm thấy profile"})
     @Put(':id')
-    updateProfile(@Param('id') id: string, @Body() dto: UpdateProfileDto){
-        this.profileService.updateProfile(parseInt(id), dto)
+    updateProfile(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateProfileDto){
+        return this.profileService.updateProfile((id), dto)
     }
 
+    //xóa profile
     @UseGuards(JwtAuthGuard, OwnershipGuard)
     @ApiBearerAuth()
     @ApiOperation({summary:'xóa profile '})
@@ -71,7 +75,7 @@ export class ProfilesController{
     @ApiResponse({status: 403, description: "Không có quyền truy cập"})
     @ApiResponse({status: 404, description:"Không tìm thấy profile"})
     @Delete(':id')
-    deleteProfile(@Param('id') id: string){
-        return this.profileService.deleteProfile(parseInt(id))
+    deleteProfile(@Param('id', ParseIntPipe) id: number){
+        return this.profileService.deleteProfile((id))
     }
 }
