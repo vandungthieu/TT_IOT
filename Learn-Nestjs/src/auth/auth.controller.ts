@@ -2,9 +2,14 @@ import { Controller, Post, Request, UseGuards, Get, Body } from '@nestjs/common'
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
 import { RegisterDto } from './dto/register.dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/users/user.entity';
+import { ApiOperation, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
+
+// DTO để mô tả response của login (token)
+class LoginResponseDto {
+  @ApiProperty({ description: 'JWT access token', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' })
+  access_token: string;
+}
 
 @ApiTags('auth')
 @Controller('auth')
@@ -22,8 +27,10 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @ApiOperation({ summary: 'Đăng nhập người dùng và trả về token' })
+  @ApiResponse({status:201, description:"đăng nhập thành công", type: LoginResponseDto})
+  @ApiResponse({status: 401, description:"Thông tin đăng nhập không hợp lên"})
   @Post('login')
-  async login(@Request() req) {
+  async login(@Request() req) { // lấy đối tượng request 
     return this.authService.createToken(req.user);
   }
 

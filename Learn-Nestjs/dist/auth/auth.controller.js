@@ -19,6 +19,13 @@ const local_auth_guard_1 = require("./guard/local-auth.guard");
 const register_dto_1 = require("./dto/register.dto");
 const swagger_1 = require("@nestjs/swagger");
 const login_dto_1 = require("./dto/login.dto");
+class LoginResponseDto {
+    access_token;
+}
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'JWT access token', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' }),
+    __metadata("design:type", String)
+], LoginResponseDto.prototype, "access_token", void 0);
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
@@ -46,6 +53,8 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     (0, swagger_1.ApiOperation)({ summary: 'Đăng nhập người dùng và trả về token' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "đăng nhập thành công", type: LoginResponseDto }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "Thông tin đăng nhập không hợp lên" }),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
