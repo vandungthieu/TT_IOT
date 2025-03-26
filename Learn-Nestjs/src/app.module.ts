@@ -8,6 +8,7 @@ import { AuthModule } from "./auth/auth.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { APP_GUARD } from "@nestjs/core";
 import { RolesGuard } from "./auth/guard/roles.guard";
+import { EnvCheckMiddleware } from "./middleware/EnvCheck.middleware";
 
 
 
@@ -25,6 +26,8 @@ import { RolesGuard } from "./auth/guard/roles.guard";
 export class AppModule{
   configure(consumer: MiddlewareConsumer){
     consumer
+    .apply(EnvCheckMiddleware)
+    .forRoutes('*')
     .apply(LoggerMiddleware)
     .forRoutes({path:'*', method:RequestMethod.ALL})
   }

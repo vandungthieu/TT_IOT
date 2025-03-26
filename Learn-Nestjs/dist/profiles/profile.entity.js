@@ -9,31 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreatePostDto = void 0;
+exports.Profile = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
-class CreatePostDto {
+class Profile {
+    id;
     userId;
-    title;
-    content;
+    bio;
+    avatar;
 }
-exports.CreatePostDto = CreatePostDto;
+exports.Profile = Profile;
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: "id của người dùng", type: "integer", example: 1 }),
-    (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ description: "id duy nhất của hồ sơ", type: 'integer', example: 1 }),
     __metadata("design:type", Number)
-], CreatePostDto.prototype, "userId", void 0);
+], Profile.prototype, "id", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: 'tiêu đề bài viết', type: 'string', example: "How to say gex" }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreatePostDto.prototype, "title", void 0);
+    (0, swagger_1.ApiProperty)({ description: "ID của người dùng sở hữu hồ sơ", type: "integer", example: 1 }),
+    __metadata("design:type", Number)
+], Profile.prototype, "userId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: 'Nôi dung bài viết', type: 'string', example: "Bla bla" }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ description: "Mô tả về User", type: "string", example: "I'm " }),
     __metadata("design:type", String)
-], CreatePostDto.prototype, "content", void 0);
-//# sourceMappingURL=create-post.dto.js.map
+], Profile.prototype, "bio", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: "url của ảnh", type: 'string', example: "say.url" }),
+    __metadata("design:type", String)
+], Profile.prototype, "avatar", void 0);
+//# sourceMappingURL=profile.entity.js.map

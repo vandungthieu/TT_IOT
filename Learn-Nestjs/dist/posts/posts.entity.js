@@ -9,31 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreatePostDto = void 0;
+exports.Posts = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
-class CreatePostDto {
+class Posts {
+    id;
     userId;
     title;
     content;
 }
-exports.CreatePostDto = CreatePostDto;
+exports.Posts = Posts;
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: "id của người dùng", type: "integer", example: 1 }),
-    (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ description: "id duy nhất của bài viết", type: 'integer', example: 1 }),
     __metadata("design:type", Number)
-], CreatePostDto.prototype, "userId", void 0);
+], Posts.prototype, "id", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: 'tiêu đề bài viết', type: 'string', example: "How to say gex" }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreatePostDto.prototype, "title", void 0);
+    (0, swagger_1.ApiProperty)({ description: "id của user", type: 'integer', example: 1 }),
+    __metadata("design:type", Number)
+], Posts.prototype, "userId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: 'Nôi dung bài viết', type: 'string', example: "Bla bla" }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ description: "tiêu đề của bài viết", type: 'string', example: "How to say gex" }),
     __metadata("design:type", String)
-], CreatePostDto.prototype, "content", void 0);
-//# sourceMappingURL=create-post.dto.js.map
+], Posts.prototype, "title", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: "nội dung của bài viết", type: 'string', example: "bla bla" }),
+    __metadata("design:type", String)
+], Posts.prototype, "content", void 0);
+//# sourceMappingURL=posts.entity.js.map

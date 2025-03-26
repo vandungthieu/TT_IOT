@@ -9,32 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserDto = void 0;
+exports.User = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
-class CreateUserDto {
-    email;
+class User {
+    id;
     name;
+    email;
     password;
+    role;
 }
-exports.CreateUserDto = CreateUserDto;
+exports.User = User;
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: "email của người dùng", type: 'string', example: "User@example.com" }),
-    (0, class_validator_1.IsEmail)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "email", void 0);
+    (0, swagger_1.ApiProperty)({ description: "ID duy nhất người dùng", type: 'integer', example: 1 }),
+    __metadata("design:type", Number)
+], User.prototype, "id", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: "tên user", type: 'string', example: "User1" }),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({ description: "Tên người dùng", type: 'string', example: "User" }),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "name", void 0);
+], User.prototype, "name", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: "mật khẩu user, tối thiểu 6 ký tự", type: 'string', example: "123456" }),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(6),
+    (0, swagger_1.ApiProperty)({ description: "Email người dùng", type: "string", example: "user@example.com" }),
     __metadata("design:type", String)
-], CreateUserDto.prototype, "password", void 0);
-//# sourceMappingURL=create-user.dto.js.map
+], User.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: "Mật khẩu người dùng", type: "string", example: "password123", writeOnly: true }),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'Vai trò của người dùng', example: 'USER', enum: ['USER', 'ADMIN'] }),
+    __metadata("design:type", String)
+], User.prototype, "role", void 0);
+//# sourceMappingURL=user.entity.js.map

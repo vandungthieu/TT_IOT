@@ -10,6 +10,7 @@ import * as bcrypt from "bcrypt"
 export class UsersService{
     constructor(private readonly prisma: PrismaService){}
     
+    // tạo user mới
     async createUser(dto: CreateUserDto){
        try{
         return await this.prisma.user.create({
@@ -25,6 +26,7 @@ export class UsersService{
        }
     }
 
+    // tạo admin mới
     async createAdmin(dto: CreateUserDto){
         const  existingUser = await this.prisma.user.findUnique({where: {email: dto.email}})
 
@@ -44,10 +46,13 @@ export class UsersService{
     }
 
 
+    //lấy tất cả user
     async getUser(){
         return await this.prisma.user.findMany()
     }
 
+
+    //lấy user theo id
     async getUserById(id: number){
         const user = await this.prisma.user.findUnique({
             where:{id}
@@ -59,14 +64,8 @@ export class UsersService{
 
         return user
     }
-    /*
-    async getUserById(id: number){
-        return this.prisma.user.findUniqueOrThrow({
-            where: {id}
-        })
-    }
-     */
 
+    // update user
     async updateUser(id:number, dto : UpdateUserDto){
        try{
         return await this.prisma.user.update({
@@ -78,6 +77,7 @@ export class UsersService{
        }
     }
 
+    // xóa user
     async deleteUser(id: number){
         try{
             return await this.prisma.user.delete({
@@ -88,6 +88,7 @@ export class UsersService{
         } 
     }
 
+    // xóa tất cả user
     async deleteAll() {
         try {
             // Bước 1: Xóa tất cả bản ghi trong bảng User

@@ -14,8 +14,7 @@ export class Profile{
     @ApiProperty({description:"url của ảnh",type:'string', example :"say.url"})
     avatar: string
 
-    @ApiProperty({type :()=> User, description:"Người sở hữu hồ sơ"})
-    user: User
+    // @ApiProperty({type :()=> User, description:"Người sở hữu hồ sơ"})
+    // user: User
 
-    
 }

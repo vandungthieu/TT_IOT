@@ -17,6 +17,8 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const local_auth_guard_1 = require("./guard/local-auth.guard");
 const register_dto_1 = require("./dto/register.dto");
+const swagger_1 = require("@nestjs/swagger");
+const login_dto_1 = require("./dto/login.dto");
 let AuthController = class AuthController {
     authService;
     constructor(authService) {
@@ -31,6 +33,10 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: "đăng ký người dùng mới" }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Người dùng đã được tạo thành công', type: login_dto_1.LoginDto }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Dữ liệu đầu vào không hợp lệ' }),
+    (0, swagger_1.ApiResponse)({ status: 409, description: 'Email đã tồn tại' }),
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -39,6 +45,7 @@ __decorate([
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, swagger_1.ApiOperation)({ summary: 'Đăng nhập người dùng và trả về token' }),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
@@ -46,6 +53,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 exports.AuthController = AuthController = __decorate([
+    (0, swagger_1.ApiTags)('auth'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);

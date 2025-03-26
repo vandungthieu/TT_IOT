@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { User } from "src/users/user.entity";
 
-export class Post{
+export class Posts{
     @ApiProperty({description:"id duy nhất của bài viết", type: 'integer',example: 1})
     id: number
 
@@ -14,6 +14,6 @@ export class Post{
     @ApiProperty({description:"nội dung của bài viết",type:'string', example:"bla bla"})
     content: string
 
-    @ApiProperty({type :()=> User, description:"Người đăng bài"})
-    user : User
+    // @ApiProperty({type :()=> User, description:"Người đăng bài"})
+    // user : User
 }

@@ -11,6 +11,7 @@ export class AuthService{
         private readonly jwtService : JwtService
     ){}
 
+    // đăng ký tài khoản
     async register(dto: RegisterDto){
         try{
             const existingUser = await this.prisma.user.findUnique({

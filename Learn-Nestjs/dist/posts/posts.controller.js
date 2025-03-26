@@ -19,7 +19,10 @@ const posts_service_1 = require("./posts.service");
 const update_post_dto_1 = require("./dto/update-post.dto");
 const jwt_auth_guard_1 = require("../auth/guard/jwt-auth.guard");
 const ownership_guard_1 = require("../auth/guard/ownership.guard");
+const roles_guard_1 = require("../auth/guard/roles.guard");
 const roles_decorator_1 = require("../auth/decorator/roles.decorator");
+const posts_entity_1 = require("./posts.entity");
+const swagger_1 = require("@nestjs/swagger");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
@@ -47,6 +50,12 @@ let PostsController = class PostsController {
 exports.PostsController = PostsController;
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'tạo post mới ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "post được tạo", type: posts_entity_1.Posts }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy post" }),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -54,8 +63,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createPost", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'lấy tất cả post (chỉ admin) ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "lấy thành công post", type: posts_entity_1.Posts }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -63,6 +77,12 @@ __decorate([
 ], PostsController.prototype, "getAllPost", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'lấy post theo ID ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "Thông tin post", type: posts_entity_1.Posts }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy post" }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -71,6 +91,12 @@ __decorate([
 ], PostsController.prototype, "getPostById", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'lấy post theo userID ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "Thông tin post", type: posts_entity_1.Posts }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy post" }),
     (0, common_1.Get)('user:userId'),
     __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
@@ -79,6 +105,12 @@ __decorate([
 ], PostsController.prototype, "getPostByUserId", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'cập nhật post theo ID ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "cập nhật post thành công", type: posts_entity_1.Posts }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy post" }),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -88,6 +120,12 @@ __decorate([
 ], PostsController.prototype, "updatePostById", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'xóa post ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "Xóa thành công post" }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy post" }),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -95,6 +133,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "deletePostById", null);
 exports.PostsController = PostsController = __decorate([
+    (0, swagger_1.ApiTags)('posts'),
     (0, common_1.Controller)('posts'),
     __metadata("design:paramtypes", [posts_service_1.PostsService])
 ], PostsController);

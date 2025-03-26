@@ -25,21 +25,21 @@ export declare class UsersController {
         id: number;
         role: import(".prisma/client").$Enums.Role;
     }[]>;
-    getUserById(id: string): Promise<{
+    getUserById(id: number): Promise<{
         email: string;
         name: string;
         password: string;
         id: number;
         role: import(".prisma/client").$Enums.Role;
     }>;
-    updateUser(id: string, dto: UpdateUserDto): Promise<{
+    updateUser(id: number, dto: UpdateUserDto): Promise<{
         email: string;
         name: string;
         password: string;
         id: number;
         role: import(".prisma/client").$Enums.Role;
     }>;
-    deleteUser(id: string): Promise<{
+    deleteUser(id: number): Promise<{
         email: string;
         name: string;
         password: string;

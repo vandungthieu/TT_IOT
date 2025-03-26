@@ -14,9 +14,12 @@ const posts_module_1 = require("./posts/posts.module");
 const profile_module_1 = require("./profiles/profile.module");
 const auth_module_1 = require("./auth/auth.module");
 const prisma_module_1 = require("./prisma/prisma.module");
+const EnvCheck_middleware_1 = require("./middleware/EnvCheck.middleware");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
+            .apply(EnvCheck_middleware_1.EnvCheckMiddleware)
+            .forRoutes('*')
             .apply(logger_middleware_1.LoggerMiddleware)
             .forRoutes({ path: '*', method: common_1.RequestMethod.ALL });
     }

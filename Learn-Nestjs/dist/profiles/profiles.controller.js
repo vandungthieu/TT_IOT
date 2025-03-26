@@ -20,6 +20,9 @@ const update_profile_dto_1 = require("./dto/update-profile.dto");
 const jwt_auth_guard_1 = require("../auth/guard/jwt-auth.guard");
 const ownership_guard_1 = require("../auth/guard/ownership.guard");
 const roles_decorator_1 = require("../auth/decorator/roles.decorator");
+const roles_guard_1 = require("../auth/guard/roles.guard");
+const swagger_1 = require("@nestjs/swagger");
+const profile_entity_1 = require("./profile.entity");
 let ProfilesController = class ProfilesController {
     profileService;
     constructor(profileService) {
@@ -43,6 +46,12 @@ let ProfilesController = class ProfilesController {
 };
 exports.ProfilesController = ProfilesController;
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'tạo profile mới ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "profile được tạo", type: profile_entity_1.Profile }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -51,8 +60,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "createProfile", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'lấy tất cả profile (chỉ admin) ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "lấy thành công profile", type: profile_entity_1.Profile }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -60,6 +74,12 @@ __decorate([
 ], ProfilesController.prototype, "getAllProfile", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'lấy profile theo ID ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "Thông tin profile", type: profile_entity_1.Profile }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -68,6 +88,12 @@ __decorate([
 ], ProfilesController.prototype, "getProfileById", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'cập nhật profile theo ID ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "cập nhật profile thành công", type: profile_entity_1.Profile }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -77,6 +103,12 @@ __decorate([
 ], ProfilesController.prototype, "updateProfile", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, ownership_guard_1.OwnershipGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, swagger_1.ApiOperation)({ summary: 'xóa profile ' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: "Xóa thành công profile" }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: "chưa xác thực" }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: "Không có quyền truy cập" }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: "Không tìm thấy profile" }),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -84,6 +116,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProfilesController.prototype, "deleteProfile", null);
 exports.ProfilesController = ProfilesController = __decorate([
+    (0, swagger_1.ApiTags)('profiles'),
     (0, common_1.Controller)('profiles'),
     __metadata("design:paramtypes", [profile_service_1.ProfileService])
 ], ProfilesController);

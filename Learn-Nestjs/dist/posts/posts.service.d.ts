@@ -5,39 +5,39 @@ export declare class PostsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     createPost(dto: CreatePostDto): Promise<{
+        title: string;
         id: number;
         userId: number;
-        title: string;
         content: string;
     }>;
     getAllPost(): Promise<{
+        title: string;
         id: number;
         userId: number;
-        title: string;
         content: string;
     }[]>;
     getPostById(id: number): Promise<{
+        title: string;
         id: number;
         userId: number;
-        title: string;
         content: string;
     }>;
     getPostByUserId(userId: number): Promise<{
+        title: string;
         id: number;
         userId: number;
-        title: string;
         content: string;
     }[]>;
     updatePostById(id: number, dto: UpdatePostDto): Promise<{
+        title: string;
         id: number;
         userId: number;
-        title: string;
         content: string;
     }>;
     deletePostById(id: number): Promise<{
+        title: string;
         id: number;
         userId: number;
-        title: string;
         content: string;
     }>;
 }
