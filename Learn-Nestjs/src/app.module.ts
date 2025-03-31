@@ -6,21 +6,33 @@ import { PostsModule } from "./posts/posts.module";
 import { ProfilesModule } from "./profiles/profile.module";
 import { AuthModule } from "./auth/auth.module";
 import { PrismaModule } from "./prisma/prisma.module";
-import { APP_GUARD } from "@nestjs/core";
-import { RolesGuard } from "./auth/guard/roles.guard";
 import { EnvCheckMiddleware } from "./middleware/EnvCheck.middleware";
+import { ConfigModule } from "@nestjs/config";
+import session from "express-session";
 
 
 
 @Module({
-  imports: [UsersModule, PostsModule, ProfilesModule, AuthModule, PrismaModule],
-  // providers:[
-  //   {
-  //     provide:APP_GUARD,
-  //     useClass:RolesGuard
-  //   }
-  // ]
+  imports: [UsersModule, PostsModule, ProfilesModule, AuthModule, PrismaModule,
+    ConfigModule.forRoot()
+  ],
 
+  providers:[
+    {
+      provide: 'APP_SESSION',
+      useFactory:()=>{
+        return session({
+          secret: process.env.SESSION_SECRET||'abc',
+          resave: false,
+          saveUninitialized: false,
+          cookie:{
+            secure:process.env.NODE_ENV === 'production',
+            maxAge: 1000*60*60*24
+          }
+        })
+      }
+    }
+  ]
 })
 
 export class AppModule{
